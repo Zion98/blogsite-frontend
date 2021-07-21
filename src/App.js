@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import { useContext } from 'react';
 import './App.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { TotalWrapper } from './components/styled/index';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Header from './components/Header';
+import Articles from './components/Articles';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import TextEditor from './components/TextEditor';
+import SingleArticle from './components/SingleArticle';
+import { Context } from './context/Context';
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const { user } = useContext(Context);
+
+	return (
+		<Router>
+			<TotalWrapper>
+				<Header />
+				<Switch>
+					<Route exact path="/">
+						{user ? <Articles /> : <SignIn />}
+					</Route>
+					<Route path="/register">{user ? <Articles /> : <SignUp />}</Route>
+					<Route path="/articles">{user ? <Articles /> : <SignIn />}</Route>
+					<Route path="/create">{user ? <TextEditor /> : <SignIn />}</Route>
+					<Route path="/article1/:id">{user ? <SingleArticle /> : <SignIn />}</Route>
+				</Switch>
+			</TotalWrapper>
+		</Router>
+	);
 }
 
 export default App;
