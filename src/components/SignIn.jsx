@@ -1,13 +1,12 @@
 import React, { useRef, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, } from "react-router-dom";
 import { Context } from "../context/Context";
 import { Form } from "./styled/index";
-import { VideoWrapper } from "./styled/index";
 const Signin = () => {
   const userRef = useRef();
   const passwordRef = useRef();
-  const history = useHistory();
-  const push= useHistory();
+  
+
   const { dispatch,state } = useContext(Context);
   const handleSubmit = (e) => {
     e.preventDefault();

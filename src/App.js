@@ -1,14 +1,8 @@
 import { useContext } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { TotalWrapper } from "./components/styled/index";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Header from "./components/Header";
-import Articles from "./components/Articles";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
-import TextEditor from "./components/TextEditor";
-import SingleArticle from "./components/SingleArticle";
+// import { TotalWrapper } from "./components/styled/index";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Context } from "./context/Context";
 
 import Routes from "./routes";

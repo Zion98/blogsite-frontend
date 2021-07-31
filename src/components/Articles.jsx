@@ -25,7 +25,7 @@ const Articles = () => {
         console.log(error);
         return error;
       });
-  },[]);
+  },[token]);
 
   return (
     <>

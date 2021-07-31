@@ -1,5 +1,5 @@
-import { createContext, useReducer, useEffect } from "react";
-import React, { useState } from "react";
+import { createContext, useReducer } from "react";
+import React from "react";
 import { Reducer, initialState } from "./Reducer";
 
 // const INITIAL_STATE = {
@@ -8,7 +8,7 @@ import { Reducer, initialState } from "./Reducer";
 //   error: false,
 // };
 
-const { user, loading, errorMessage } = initialState;
+// const { user, loading, errorMessage } = initialState;
 
 export const Context = createContext(initialState);
 

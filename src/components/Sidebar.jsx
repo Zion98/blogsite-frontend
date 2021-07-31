@@ -24,7 +24,7 @@ const Sidebar = () => {
         console.log("failed");
         console.log(error);
       });
-  },[]);
+  },[token]);
 
   return (
     <SideBarWrapper>
