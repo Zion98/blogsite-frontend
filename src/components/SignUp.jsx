@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { Context } from "../context/Context";
+import React, { useState } from "react";
+// import { Context } from "../context/Context";
 // import { Form } from './styled/index';
 import styled, { css } from "styled-components";
 const Signup = () => {
@@ -12,7 +12,7 @@ const Signup = () => {
     password: "",
   };
 
-  const { dispatch } = useContext(Context);
+//   const { dispatch } = useContext(Context);
   const [state, setState] = useState(initials);
   const [error, setError] = useState(false);
 
@@ -106,7 +106,7 @@ const Signup = () => {
         />
 
         <button type="submit">Sign Up</button>
-        {/* {error && <span style={{ color: "red" }}>Something went wrong</span>} */}
+        {error && <span style={{ color: "red" }}>Something went wrong</span>}
       </form>
     </Form>
   );
