@@ -1,31 +1,36 @@
 import { createContext, useReducer, useEffect } from "react";
-import Reducer from "./Reducer";
+import React, { useState } from "react";
+import { Reducer, initialState } from "./Reducer";
 
-const INITIAL_STATE = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  isFetching: false,
-  error: false,
-};
+// const INITIAL_STATE = {
+//   user:''|| JSON.parse(localStorage.getItem("user")),
+//   isFetching: false,
+//   error: false,
+// };
 
-export const Context = createContext(INITIAL_STATE);
+const { user, loading, errorMessage } = initialState;
+
+export const Context = createContext(initialState);
 
 export const ContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);
+  const [state, dispatch] = useReducer(Reducer, initialState);
 
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(state.user));
-  }, [state.user]);
-  console.log(state.user, "cap");
+  // const [get, setGet] = useState(
+  //   localStorage.getItem("user")
+  //     ? localStorage.setItem("user", JSON.stringify(state.user))
+  //     : null
+  // );
+
+  // let user = localStorage.getItem("user")
+  //   ? JSON.parse(localStorage.getItem("user"))
+  //   : "";
+
+  // const [get, setGet] = useState(user);
+console.log("contexter", state.user)
+  // useEffect(() => {
+
+  // }, [user])
   return (
-    <Context.Provider
-      value={{
-        user: state.user,
-        isFetching: state.isFetching,
-        error: state.Error,
-        dispatch,
-      }}
-    >
-      {children}
-    </Context.Provider>
+    <Context.Provider value={{state, dispatch}}>{children}</Context.Provider>
   );
 };

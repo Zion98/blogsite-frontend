@@ -16,7 +16,7 @@ export const TotalWrapper = styled.div`
 const CenterPosition = css`
 	margin: 0 auto;
 	position: absolute;
-	top: 55%;
+	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background: #f9faff;
@@ -119,7 +119,9 @@ export const Form = styled.div`
 	.have-account span {
 		color: #4c60eb;
 	}
-
+	@media only screen and (max-width: 768px) {
+		min-width: 90%;
+	}
 `;
 
 export const VideoWrapper= styled.div`

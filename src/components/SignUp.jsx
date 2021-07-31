@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from '../context/Context';
 // import { Form } from './styled/index';
 import styled, { css } from 'styled-components';
 const Signup = () => {
@@ -12,7 +13,7 @@ const Signup = () => {
 	};
 
 	
-
+	const { dispatch } = useContext(Context);
 	const [state, setState] = useState(initials);
 	const [error, setError]=useState(false)
 
@@ -20,12 +21,13 @@ const Signup = () => {
 		const name = e.target.name;
 		const value = e.target.value;
 		setState({ ...state, [name]: value });
-		console.log(state)
+
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setError(false)
+		// dispatch({ type: 'SIGNIN_SUCCESS', payload: data.data });
 		// const baseURL = 'http://localhost:3000';
 		fetch(process.env.REACT_APP_BACKEND_URL + '/auth/register', {
 			method: 'POST',
@@ -43,10 +45,10 @@ const Signup = () => {
 					email: '',
 					profilePicture: '',
 					password: '',
-				});
-
-				res&&window.location.replace("/")
-			})
+				})}).then((data) => {
+					dispatch({ type: 'SIGNIN_SUCCESS', payload: data.data });
+					console.log("data", data.data)
+				})
 			.catch((err) => {
 				setError(err)
 				console.log(err);

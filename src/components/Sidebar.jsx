@@ -24,7 +24,7 @@ const Sidebar = () => {
         console.log("failed");
         console.log(error);
       });
-  });
+  },[]);
 
   return (
     <SideBarWrapper>
@@ -45,7 +45,7 @@ const Sidebar = () => {
         <div className="category">
           <h2 className="cat-title">Categories</h2>
           <ul className="side-lists">
-            {categories ? (
+            {categories ?(
               categories?.map((single, index) => {
                 return (
                   <Link to={`/nav/home/?cat=${single.name}`}>
@@ -111,15 +111,18 @@ const SideBarWrapper = styled.div`
   }
   .side-lists {
     list-style: none;
-    width: 50%;
-    margin: 0 auto;
+    /* width: 50%; */
+    /* margin: 0 auto; */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     margin-bottom: 1rem;
   }
 
   .side-lists li {
+    margin: 1rem;
     display: inline-block;
     color: #fff;
-    margin-top: 0.9rem;
     width: 50%;
   }
 
