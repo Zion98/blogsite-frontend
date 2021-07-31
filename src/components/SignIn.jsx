@@ -33,15 +33,12 @@ console.log("rsgethry")
         localStorage.setItem("user", JSON.stringify(data.data));
         window.location.href = '/articles';
         // history.push("/articles");
-		// console.log(history)
       })
       .catch((err) => {
         dispatch({ type: "LOGIN_ERROR" });
         console.log(err);
       });
   };
-
-//   console.log("Afre", state.user);
 
   return (
     <>
