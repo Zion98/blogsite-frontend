@@ -31,9 +31,9 @@ console.log("rsgethry")
         console.log("datacvb", data.data);
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
         localStorage.setItem("user", JSON.stringify(data.data));
-        // window.location.href = '/articles';
-        history.push("/articles");
-		console.log(history)
+        window.location.href = '/articles';
+        // history.push("/articles");
+		// console.log(history)
       })
       .catch((err) => {
         dispatch({ type: "LOGIN_ERROR" });
