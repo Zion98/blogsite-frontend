@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Card from "./Card";
 import SideBar from "../components/Sidebar";
 import Footer from "../components/Footer";
-
+import {Context} from "../context/Context";
 const Articles = () => {
   const [allArticles, setAllArticles] = useState([]);
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
-
+const {state}= useContext(Context)
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL+"/get", {
       method: "GET",
@@ -26,6 +26,8 @@ const Articles = () => {
         return error;
       });
   },[token]);
+
+  console.log(state.user)
 
   return (
     <>

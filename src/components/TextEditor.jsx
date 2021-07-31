@@ -9,16 +9,16 @@ import axios from "axios";
 import Footer from "./Footer";
 
 const TextEditor = () => {
-  const { user } = useContext(Context);
+  const { state } = useContext(Context);
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
-  const [username, setUsername] = useState(user.username);
+  const [username, setUsername] = useState(state.user?.username);
   const [categories, setCategories] = useState("");
   const [facebook, setFacebook] = useState("");
   const [twitter, setTwitter] = useState("");
-
+// console.log(state['username'])
   const handleEditor = (event, editor) => {
     const data = editor.getData();
     console.log(data);
@@ -33,7 +33,7 @@ const TextEditor = () => {
     const newPost = {
       title,
       desc,
-      username: user.username,
+      username: state.username,
       categories,
       facebook,
       twitter,

@@ -5,10 +5,10 @@ import { Form } from "./styled/index";
 const Signin = () => {
   const userRef = useRef();
   const passwordRef = useRef();
-console.log("rsgethry")
+  console.log("rsgethry");
   const history = useHistory();
-  console.log(history)
-  const { dispatch} = useContext(Context);
+  console.log(history);
+  const { dispatch } = useContext(Context);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -31,7 +31,7 @@ console.log("rsgethry")
         console.log("datacvb", data.data);
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
         localStorage.setItem("user", JSON.stringify(data.data));
-        window.location.href = '/articles';
+        window.location.href = "/articles";
         // history.push("/articles");
       })
       .catch((err) => {
