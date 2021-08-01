@@ -56,11 +56,11 @@ const Signup = () => {
   };
   return (
     <Form>
-      <p class="logo">The Info</p>
-      <h2 class="sign-in-title">Sign up</h2>
-      <p class="proceed">Please enter your credentials to proceed</p>
-      <form class="forms" onSubmit={handleSubmit}>
-        <p class="address mail">*FIRSTNAME</p>
+      <p className="logo">The Info</p>
+      <h2 className="sign-in-title">Sign up</h2>
+      <p className="proceed">Please enter your credentials to proceed</p>
+      <form className="forms" onSubmit={handleSubmit}>
+        <p className="address mail">*FIRSTNAME</p>
         <input
           type="text"
           className="inputs"
@@ -93,10 +93,10 @@ const Signup = () => {
           value={state.email}
           onChange={handleChange}
         />
-        <p class="address mail">Upload your Profile Picture</p>
-        <input type="file" name="file" />
-        <div class="password-title">
-          <p class="password">*PASSWORD</p>
+        {/* <p class="address mail">Upload your Profile Picture</p>
+        <input type="file" name="file" /> */}
+        <div className="password-title">
+          <p className="password">*PASSWORD</p>
         </div>
         <input
           type="password"
@@ -125,20 +125,21 @@ const CenterPosition = css`
 
 export const Form = styled.div`
   ${CenterPosition}
+  background: #C09F80;
   p {
     margin: 0 !important;
   }
   .logo {
     text-align: center;
-    width: 71px;
-    height: 71px;
+    width: 81px;
+    height: 81px;
     margin: 10px auto;
-    border: 1px solid #ffffff;
-    background: #4c60eb;
+	border: 1px solid #726963;
+	background: #726963;
     font-size: 15px;
-    color: #fff;
+	color: #FFF !important;
     border-radius: 50px;
-    line-height: 71px;
+    line-height: 81px;
   }
 
   a {
@@ -146,15 +147,15 @@ export const Form = styled.div`
   }
 
   .sign-in-title {
-    font-weight: 300;
+    font-weight: 700;
     font-size: 34px;
     text-align: left;
     margin-bottom: 5px;
-    color: #405169;
+	color: #76323f;
   }
   .proceed {
     font-size: 15px;
-    color: rgba(64, 81, 105, 0.5);
+	color: #fff !important;
   }
 
   form {
@@ -173,11 +174,11 @@ export const Form = styled.div`
 
   .address,
   .password {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 12px;
     letter-spacing: 1.125px;
     text-transform: uppercase;
-    color: #405169;
+	color: #fff !important;
   }
 
   .password-title {
@@ -198,7 +199,7 @@ export const Form = styled.div`
     width: 100%;
     height: 35px;
     outline: none;
-    background: rgba(76, 141, 235, 0.10077);
+    background: rgba(219, 226, 236, 0.101);
     border: 1px solid rgba(76, 141, 235, 0.10077);
     border-radius: 5px;
     margin-bottom: 10px;
@@ -207,8 +208,8 @@ export const Form = styled.div`
   button {
     margin-top: 20px;
     font-size: 15px;
-    color: #fff;
-    background: #4c60eb;
+	color: #565656;
+	background: #d7cec7;
   }
 
   .have-account {

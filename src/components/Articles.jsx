@@ -3,14 +3,14 @@ import styled from "styled-components";
 import Card from "./Card";
 import SideBar from "../components/Sidebar";
 import Footer from "../components/Footer";
-import {Context} from "../context/Context";
+import { Context } from "../context/Context";
 const Articles = () => {
   const [allArticles, setAllArticles] = useState([]);
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
-const {state}= useContext(Context)
+  const { state } = useContext(Context);
   useEffect(() => {
-    fetch(process.env.REACT_APP_BACKEND_URL+"/get", {
+    fetch(process.env.REACT_APP_BACKEND_URL + "/get", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -25,9 +25,9 @@ const {state}= useContext(Context)
         console.log(error);
         return error;
       });
-  },[token]);
+  }, [token]);
 
-  console.log(state.user)
+  console.log(state.user);
 
   return (
     <>
@@ -56,7 +56,8 @@ const ArticlesWrapper = styled.div`
 
   .titler {
     text-align: center;
-    color: #fff;
+    color: #76323F;
+    font-weight: 800;
     border-bottom: 1px solid #c0c0c0;
     padding: 1rem 0;
     margin: 6rem 0;
@@ -71,9 +72,17 @@ const ArticlesWrapper = styled.div`
   }
 
   @media only screen and (max-width: 765px) {
+    width: 85%;
+    margin: 2rem auto;
+
+
+    .titler {
+      margin-bottom: 3rem;
+    }
     .box-content {
       grid-template-columns: 1fr;
-      grid-gap: 1rem;
+      width: 100%;
+      grid-gap: 2rem;
     }
   }
 `;

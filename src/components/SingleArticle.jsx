@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 import { Link, useLocation } from "react-router-dom";
 import SideBar from "../components/Sidebar";
+import Footer from "../components/Footer";
 const SingleArticle = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
@@ -13,7 +14,6 @@ const SingleArticle = () => {
   let token = JSON.parse(x).token;
   const PF = process.env.REACT_APP_BACKEND_URL;
   const baseURL = PF + "/get/" + path;
-  console.log(baseURL, "rabonii");
 
   useEffect(() => {
     fetch(baseURL, {
@@ -24,14 +24,12 @@ const SingleArticle = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-		
-        console.log(data);
         setArticle(data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  });
+  }, [token, baseURL]);
 
   return (
     <>
@@ -39,8 +37,6 @@ const SingleArticle = () => {
         <div className="article-img">
           <img src={PF + "/images/" + article.photo} alt="article/img" />
         </div>
-
-        <h2 className="single-title">{article.title}</h2>
 
         <div className="all-details">
           <div className="article-details">
@@ -61,20 +57,19 @@ const SingleArticle = () => {
             </div>
           </div>
           <div className="links">
-            <a href="www.google.com" target="_blank">
-              <i class="fab fa-facebook"></i>
+            {/* <a href={article?.facebook[0]} target="_blank" rel="noreferrer">
+            <i class="fab fa-facebook"></i>
             </a>
-            <Link>
-              <i class="fab fa-twitter"></i>
-            </Link>
+            <a href={'www.google.com'} target="_blank" rel="noreferrer">
+            <i class="fab fa-twitter"></i>
+            </a> */}
           </div>
         </div>
+        <div className="total-content">
+          <h2 className="single-title">{article.title}</h2>
 
-        <div class="article-content">
-          {parse(`${article.desc}`)}
-	
-         </div>
-
+          <div class="article-content">{parse(`${article.desc}`)}</div>
+        </div>
         <div className="footer-details">
           <div className="author-img">
             <img src="/assets/main.jpg" alt="article/img" />
@@ -96,18 +91,20 @@ const SingleArticle = () => {
         </div>
       </OneWrapper>
       <SideBar />
+
+      <Footer />
     </>
   );
 };
 
 const OneWrapper = styled.div`
-/* margin-top: 30rem; */
   grid-area: content;
   padding: 2rem;
 
   .article-img {
     width: 100%;
     margin: 0 auto;
+    margin-top: 8rem;
   }
 
   .article-img img {
@@ -118,6 +115,9 @@ const OneWrapper = styled.div`
   .single-title {
     margin: 1rem 0;
     text-align: center;
+    color: #76323f;
+    text-transform: uppercase;
+    font-weight: 900;
   }
 
   .all-details {
@@ -156,6 +156,8 @@ const OneWrapper = styled.div`
     font-size: 1.4rem;
     font-weight: 700;
     margin: 0;
+    text-decoration: none;
+    color: #76323f;
   }
   .number {
     font-size: 0.8rem;
@@ -175,6 +177,11 @@ const OneWrapper = styled.div`
     box-shadow: 0px 1px 5px 1px;
   }
 
+  .total-content {
+    padding: 2rem 0;
+    background-color: #fff;
+  }
+
   .article-content {
     background-color: #fff;
     padding: 2rem;
@@ -190,13 +197,14 @@ const OneWrapper = styled.div`
 
   .footer-details {
     justify-content: center;
-    /* width: 90%; */
-    /* margin: 0 auto; */
   }
   .footer-name {
     width: 60%;
     font-size: 0.7rem;
     font-weight: 600;
+  }
+
+  @media only screen and (max-width: 768px) {
   }
 `;
 

@@ -73,7 +73,6 @@ const Header = (props) => {
             </ul>
           </div>
         </nav>
-        
       </HeaderWrapper>
     </>
   );
@@ -82,9 +81,9 @@ const Header = (props) => {
 const HeaderWrapper = styled.div`
   grid-area: header;
   padding: 0.5rem 2rem;
-  color: #000;
+  color: #565656;
   font-weight: 600;
-  background-color: #2f2fa2;
+  background-color: #fff;
   /* background-color:${(props) => (props.pageType === "/" ? "red" : "")}; */
   position: fixed;
   width: 100%;
@@ -94,58 +93,45 @@ const HeaderWrapper = styled.div`
     background-color: transparent !important;
   }
 
-
-
-  /* .navbar-expand-lg .navbar-collapse {
-    display: flex!important;
-    flex-basis: auto;
-    justify-content: flex-end !important;
-} */
-
-
   .navbar-links {
-    color: #000 !important;
+    color: #565656 !important;
     /* margin-left: 40rem; */
   }
 
   #lists li a {
-    color: #fff !important;
+    color: red !important;
   }
 
   #trans {
-    color: #fff !important;
+    color: #565656 !important;
     text-decoration: none;
   }
   .logo {
     text-align: center;
     width: 81px;
     height: 81px;
-    /* margin: 5px auto; */
-    background: #4c60eb;
+    background: #726963;
     font-size: 15px;
-    color: #fff !important;
+    color: #FFF !important;
     border-radius: 50px;
     line-height: 71px;
   }
 
   .latest {
-    color: #fff !important;
+    color: #565656 !important;
+    font-weight: 800;
   }
 
-
-
   .logo-name,
-.navbar ul li a {
-  font-weight: 400;
-  font-size: 1.1rem;
-  margin-right: 1rem !important;
-  color: #ffffff !important;
-}
+  .navbar ul li a {
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-right: 1rem !important;
+    color: #565656 !important;
+  }
 
-
-@media screen and(max-width:991px){
-
-}
+  @media screen and(max-width:991px) {
+  }
 `;
 
 export default Header;

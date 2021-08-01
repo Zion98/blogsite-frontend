@@ -82,7 +82,7 @@ const SideBarWrapper = styled.div`
     padding: 3rem 2rem;
     border: none;
     border-radius: 30px;
-    background-color: #2f2fa2;
+    background-color: #C09F80;
     color: #fff;
   }
 
@@ -141,6 +141,10 @@ const SideBarWrapper = styled.div`
     color: #fff;
     text-decoration: none;
     margin: 0 1rem;
+  }
+
+  @media only screen and (max-width: 768px) {
+    display: none !important;
   }
 `;
 
