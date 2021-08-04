@@ -195,7 +195,7 @@ console.log(token)
 
 const EditorWrapper = styled.div`
   grid-area: content;
-  padding: 2rem;
+  padding: 1rem;
   width: 100%;
   margin: 6rem auto;
   margin-top: 12rem;

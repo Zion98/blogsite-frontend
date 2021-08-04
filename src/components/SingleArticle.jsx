@@ -70,25 +70,24 @@ const SingleArticle = () => {
 
           <div class="article-content">{parse(`${article.desc}`)}</div>
         </div>
-        <div className="footer-details">
+        {/* <div className="footer-details">
           <div className="author-img">
             <img src="/assets/main.jpg" alt="article/img" />
           </div>
 
           <div className="mini-details">
             <p className="footer-name">
-              {" "}
               <span>Setryl Svanlip</span>Lorem, ipsum dolor sit amet consectetur
               adipisicing elit. Id illo recusandae odio ut? Aperiam dolorem
               dicta perspiciatis omnis sint amet hic quidem, voluptatum
               necessitatibus eos?
             </p>
           </div>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <span>Edit</span>
           <span>Delete</span>
-        </div>
+        </div> */}
       </OneWrapper>
       <SideBar />
 
@@ -136,7 +135,13 @@ const OneWrapper = styled.div`
   .article-details {
     justify-content: flex-start;
   }
-
+  .footer-details {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #76323f;
+    justify-content: flex-end !important;
+    align-items:flex-start;
+  }
   .author-img {
     width: 50px;
     height: 50px;
@@ -195,9 +200,7 @@ const OneWrapper = styled.div`
     min-width: 600px;
   }
 
-  .footer-details {
-    justify-content: center;
-  }
+  
   .footer-name {
     width: 60%;
     font-size: 0.7rem;

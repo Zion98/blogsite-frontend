@@ -70,8 +70,9 @@ const Signup = () => {
         return res.json();
       })
       .then((data) => {
-        localStorage.setItem("user", data.data);
+        console.log(data);
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
+        localStorage.setItem("user", JSON.stringify(data.data));
         window.location.href = "/articles";
       })
       .catch((err) => {

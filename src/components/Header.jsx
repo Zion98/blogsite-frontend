@@ -7,8 +7,8 @@ const Header = (props) => {
   const { dispatch } = useContext(Context);
 
   const handleSignOut = () => {
-    localStorage.setItem("user", "");
     dispatch({ type: "LOGOUT" });
+    localStorage.setItem("user", "");
     window.location.href = "/";
   };
   return (
