@@ -34,7 +34,7 @@ const Header = (props) => {
                 <NavLink
                   to="/articles"
                   className="nav-link header-options"
-                  activeClassName="active"
+                  activeclassname="active"
                 >
                   HOME{" "}
                 </NavLink>
@@ -43,7 +43,7 @@ const Header = (props) => {
                 <NavLink
                   to="/create"
                   className="nav-link header-options"
-                  activeClassName="active"
+                  activeclassname="active"
                 >
                   CREATE CONTENT{" "}
                 </NavLink>
@@ -52,7 +52,7 @@ const Header = (props) => {
                 <NavLink
                   to="/nav/faqs"
                   className="nav-link header-options"
-                  activeClassName="active"
+                  activeclassname="active"
                 >
                   FAQ{" "}
                 </NavLink>
@@ -66,7 +66,7 @@ const Header = (props) => {
               <li
                 onClick={handleSignOut}
                 className="download-btn latest nav-item nav-link header-options"
-                activeClassName="active"
+                activeclassname="active"
               >
                 SIGN OUT{" "}
               </li>

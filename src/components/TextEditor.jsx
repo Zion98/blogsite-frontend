@@ -10,7 +10,7 @@ import Footer from "./Footer";
 
 const TextEditor = () => {
   const { state } = useContext(Context);
-  const name = JSON.parse(state.user).username;
+  const name = state.user?.username;
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
@@ -25,7 +25,7 @@ const TextEditor = () => {
   };
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
-
+console.log(token)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -185,8 +185,6 @@ const TextEditor = () => {
         </form>
         {/* {file && <img src={URL.createObjectURL(file)} alt="image1" />} */}
         {/* <div>
-				<h2>Content</h2>
-				<>{parse(form.data)}</>
 			</div> */}
       </EditorWrapper>
       <Sidebar />
@@ -197,7 +195,7 @@ const TextEditor = () => {
 
 const EditorWrapper = styled.div`
   grid-area: content;
-  padding: 2rem 4rem;
+  padding: 2rem;
   width: 100%;
   margin: 6rem auto;
   margin-top: 12rem;

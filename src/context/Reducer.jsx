@@ -1,15 +1,5 @@
 // import React, { useReducer } from "react";
 
-let user = localStorage.getItem("user")
-  ? localStorage.getItem("user")
-  : "";
-
-export const initialState = {
-  user: user || "",
-  //   token: "" || token,
-  loading: false,
-  errorMessage: null,
-};
 
 export const Reducer = (initialState, action) => {
   switch (action.type) {
@@ -21,7 +11,7 @@ export const Reducer = (initialState, action) => {
     case "LOGIN_SUCCESS":
       return {
         ...initialState,
-        user: action.payload.user,
+        user: action.payload?.user,
         // token: action.payload.auth_token,
         loading: false,
       };

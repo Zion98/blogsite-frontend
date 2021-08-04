@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link} from "react-router-dom";
+import React, { useState, useContext} from "react";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { Context } from "../context/Context";
 import { Form } from "./styled/index";
@@ -7,16 +7,15 @@ import * as Yup from "yup";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const Signin = () => {
-
   const { dispatch, state } = useContext(Context);
-  console.log("stateloading", state.loading);
   const initialValues = {
     email: "",
     password: "",
   };
 
+  const [error, setError] = useState("");
+
   const onSubmit = (values) => {
-    console.log("form values", values);
     handleSubmit(values);
   };
 
@@ -31,17 +30,21 @@ const Signin = () => {
       body: JSON.stringify(dataValues),
     })
       .then((res) => {
-        return res.json();
+        if (res.status === 200) {
+          return res.json();
+        }
+        console.log(res.json());
       })
       .then((data) => {
+        console.log("data", data);
         console.log("datacvb", data.data);
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
         localStorage.setItem("user", JSON.stringify(data.data));
         window.location.href = "/articles";
       })
-      .catch((err) => {
+      .catch((error) => {
         dispatch({ type: "LOGIN_ERROR" });
-        console.log(err);
+        setError("Invalid Email or Password");
       });
   };
 
@@ -59,9 +62,8 @@ const Signin = () => {
     onSubmit,
     validationSchema,
   });
-
-  console.log(formik.values);
-
+  
+console.log(state.user)
   return (
     <>
       <Form>
@@ -70,6 +72,10 @@ const Signin = () => {
           <h2 className="sign-in-title">Sign in</h2>
           <p className="proceed">Please enter your credentials to proceed</p>
           <form onSubmit={formik.handleSubmit} className="forms">
+            {error && (
+              <p className="text-danger error2 font-weight-bold">{error}</p>
+            )}
+
             <div className="">
               <label htmlFor="email" className="address mail">
                 EMAIL ADDRESS

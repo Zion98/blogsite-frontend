@@ -124,7 +124,9 @@ export const Form = styled.div`
     font-size: 15px;
     color: #fff;
   }
-
+.error2{
+  font-weight: 800;
+}
   .have-account span {
     color: #76323f;
   }
