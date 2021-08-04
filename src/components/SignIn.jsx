@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { Context } from "../context/Context";
@@ -62,8 +62,8 @@ const Signin = () => {
     onSubmit,
     validationSchema,
   });
-  
-console.log(state.user)
+
+  console.log(state.user);
   return (
     <>
       <Form>

@@ -7,7 +7,9 @@ const Header = (props) => {
   const { dispatch } = useContext(Context);
 
   const handleSignOut = () => {
-    dispatch({ type: "SIGNOUT" });
+    localStorage.setItem("user", "");
+    dispatch({ type: "LOGOUT" });
+    window.location.href = "/";
   };
   return (
     <>
@@ -65,7 +67,7 @@ const Header = (props) => {
 
               <li
                 onClick={handleSignOut}
-                className="download-btn latest nav-item nav-link header-options"
+                className="download-btn signout latest nav-item nav-link header-options"
                 activeclassname="active"
               >
                 SIGN OUT{" "}
@@ -112,7 +114,7 @@ const HeaderWrapper = styled.div`
     height: 81px;
     background: #726963;
     font-size: 15px;
-    color: #FFF !important;
+    color: #fff !important;
     border-radius: 50px;
     line-height: 71px;
   }
@@ -128,6 +130,10 @@ const HeaderWrapper = styled.div`
     font-size: 1.1rem;
     margin-right: 1rem !important;
     color: #565656 !important;
+  }
+
+  .signout {
+    cursor: pointer;
   }
 
   @media screen and(max-width:991px) {

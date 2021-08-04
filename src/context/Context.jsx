@@ -16,11 +16,6 @@ export const Context = createContext(initialState);
 export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, initialState);
 
-  // useEffect(() => {
-  //   if (state.user) {
-  //     window.location.href = "/articles";
-  //   }
-  // },[]);
 
   console.log("contexter", state.user);
   return (
