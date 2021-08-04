@@ -9,6 +9,7 @@ const Articles = () => {
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
   const { state } = useContext(Context);
+  console.log("stateloading articles", state.loading)
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL + "/get", {
       method: "GET",

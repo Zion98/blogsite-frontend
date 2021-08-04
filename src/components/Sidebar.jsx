@@ -3,10 +3,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 const Sidebar = () => {
   const [categories, setCategories] = useState([]);
-  // const baseURL = 'http://localhost:3000/cat/get';
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
-  console.log("cat", token);
+
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL + "/cat/get", {
       method: "GET",
@@ -16,15 +15,12 @@ const Sidebar = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("cav");
-        console.log(data);
         setCategories(data);
       })
       .catch((error) => {
-        console.log("failed");
         console.log(error);
       });
-  },[token]);
+  }, [token]);
 
   return (
     <SideBarWrapper>
@@ -45,7 +41,7 @@ const Sidebar = () => {
         <div className="category">
           <h2 className="cat-title">Categories</h2>
           <ul className="side-lists">
-            {categories ?(
+            {categories ? (
               categories?.map((single, index) => {
                 return (
                   <Link to={`/nav/home/?cat=${single.name}`}>
@@ -82,7 +78,7 @@ const SideBarWrapper = styled.div`
     padding: 3rem 2rem;
     border: none;
     border-radius: 30px;
-    background-color: #C09F80;
+    background-color: #c09f80;
     color: #fff;
   }
 

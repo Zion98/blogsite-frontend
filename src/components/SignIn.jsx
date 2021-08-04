@@ -1,17 +1,26 @@
-import React, { useRef, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link} from "react-router-dom";
+import { useFormik } from "formik";
 import { Context } from "../context/Context";
 import { Form } from "./styled/index";
-const Signin = () => {
-  const userRef = useRef();
-  const passwordRef = useRef();
-  console.log("rsgethry");
-  const history = useHistory();
-  console.log(history);
-  const { dispatch } = useContext(Context);
-  const handleSubmit = (e) => {
-    e.preventDefault();
+import * as Yup from "yup";
+import ClipLoader from "react-spinners/ClipLoader";
 
+const Signin = () => {
+
+  const { dispatch, state } = useContext(Context);
+  console.log("stateloading", state.loading);
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const onSubmit = (values) => {
+    console.log("form values", values);
+    handleSubmit(values);
+  };
+
+  const handleSubmit = (dataValues) => {
     dispatch({ type: "REQUEST_LOGIN" });
 
     fetch(process.env.REACT_APP_BACKEND_URL + "/auth/login", {
@@ -19,10 +28,7 @@ const Signin = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: userRef.current.value,
-        password: passwordRef.current.value,
-      }),
+      body: JSON.stringify(dataValues),
     })
       .then((res) => {
         return res.json();
@@ -32,13 +38,29 @@ const Signin = () => {
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
         localStorage.setItem("user", JSON.stringify(data.data));
         window.location.href = "/articles";
-        // history.push("/articles");
       })
       .catch((err) => {
         dispatch({ type: "LOGIN_ERROR" });
         console.log(err);
       });
   };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required("Email is required")
+      .email("Invaild Email Format"),
+    password: Yup.string()
+      .required("Password is Required")
+      .min(5, "Password is too short - should be 5 chars minimum."),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validationSchema,
+  });
+
+  console.log(formik.values);
 
   return (
     <>
@@ -47,23 +69,59 @@ const Signin = () => {
           <p className="logo">The Info</p>
           <h2 className="sign-in-title">Sign in</h2>
           <p className="proceed">Please enter your credentials to proceed</p>
-          <form onSubmit={handleSubmit} className="forms">
-            <label className="address mail">EMAIL ADDRESS</label>
-            <input
-              type="email"
-              name="email"
-              autoComplete={true}
-              ref={userRef}
-            />
+          <form onSubmit={formik.handleSubmit} className="forms">
+            <div className="">
+              <label htmlFor="email" className="address mail">
+                EMAIL ADDRESS
+              </label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                {...formik.getFieldProps("email")}
+                autoComplete={true}
+              />
+
+              {formik.touched.email && formik.errors.email && (
+                <p className="text-danger font-weight-bold">
+                  {formik.errors.email}
+                </p>
+              )}
+            </div>
 
             <div className="password-title">
-              <label className="password">PASSWORD</label>
+              <label htmlFor="password" className="password">
+                PASSWORD
+              </label>
               <p className="forgot">Forgot password?</p>
             </div>
-            <input type="password" name="password" ref={passwordRef} />
-
+            <div className="">
+              <input
+                type="password"
+                {...formik.getFieldProps("password")}
+                id="password"
+                name="password"
+                value={formik.values.password}
+              />
+              {formik.touched.password && formik.errors.password && (
+                <p className="text-danger font-weight-bold">
+                  {formik.errors.password}
+                </p>
+              )}
+            </div>
             <button type="submit">Sign in</button>
-
+            {state.loading && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <ClipLoader color={"#76323f"} size={150} />
+              </div>
+            )}
             <p className="have-account">
               Don't have an account?{" "}
               <Link to="/register">

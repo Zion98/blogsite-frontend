@@ -1,11 +1,8 @@
 // import React, { useReducer } from "react";
 
 let user = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
+  ? localStorage.getItem("user")
   : "";
-// let token = localStorage.getItem("currentUser")
-//   ? JSON.parse(localStorage.getItem("currentUser")).auth_token
-//   : "";
 
 export const initialState = {
   user: user || "",

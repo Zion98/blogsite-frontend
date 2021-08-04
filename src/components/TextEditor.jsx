@@ -1,7 +1,7 @@
-import React, { useState, useContext, } from "react";
+import React, { useState, useContext } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-// import parse from 'html-react-parser';
+import Swal from "sweetalert2";
 import styled from "styled-components";
 import { Context } from "../context/Context";
 import Sidebar from "./Sidebar";
@@ -10,18 +10,17 @@ import Footer from "./Footer";
 
 const TextEditor = () => {
   const { state } = useContext(Context);
-
+  const name = JSON.parse(state.user).username;
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
-  const [username, setUsername] = useState(state.user?.username);
+  const [username, setUsername] = useState(name);
   const [categories, setCategories] = useState("");
   const [facebook, setFacebook] = useState("");
   const [twitter, setTwitter] = useState("");
-// console.log(state['username'])
+
   const handleEditor = (event, editor) => {
     const data = editor.getData();
-    console.log(data);
     setDesc(data);
   };
   let x = localStorage.getItem("user");
@@ -29,11 +28,12 @@ const TextEditor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const baseURL = "http://localhost:3000";
+
+    const baseURL = process.env.REACT_APP_BACKEND_URL;
     const newPost = {
       title,
       desc,
-      username: state.username,
+      username,
       categories,
       facebook,
       twitter,
@@ -45,7 +45,7 @@ const TextEditor = () => {
       data.append("name", filename);
       data.append("file", file);
       newPost.photo = filename;
-      // console.log(data);
+
       try {
         await axios.post(baseURL + "/upload", data, {
           headers: {
@@ -61,7 +61,10 @@ const TextEditor = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("done");
+        Swal.fire({
+          icon: "success",
+          title: "Article Created",
+        });
         window.location.replace("/articles");
       } catch (error) {
         return error;
@@ -180,7 +183,7 @@ const TextEditor = () => {
             Submit
           </button>
         </form>
-        {file && <img src={URL.createObjectURL(file)} alt="image1" />}
+        {/* {file && <img src={URL.createObjectURL(file)} alt="image1" />} */}
         {/* <div>
 				<h2>Content</h2>
 				<>{parse(form.data)}</>

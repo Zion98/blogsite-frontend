@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-// import { Context } from "../context/Context";
-// import { Form } from './styled/index';
+import React, { useState, useContext } from "react";
+import { Context } from "../context/Context";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import styled, { css } from "styled-components";
+import ClipLoader from "react-spinners/ClipLoader";
+
 const Signup = () => {
-  const initials = {
+  const initialValues = {
     firstname: "",
     lastname: "",
     username: "",
@@ -12,30 +15,50 @@ const Signup = () => {
     password: "",
   };
 
-//   const { dispatch } = useContext(Context);
-  const [state, setState] = useState(initials);
-  const [error, setError] = useState(false);
+  const validationSchema = Yup.object({
+    firstname: Yup.string()
+      .min(2, "FirstName is too short!")
+      .max(50, "FirstName is too Long!")
+      .required("FirstName is Required"),
+    lastname: Yup.string()
+      .min(2, "LastName is too Short!")
+      .max(50, "Last Name is too Long!")
+      .required("LastName is Required"),
+    username: Yup.string()
+      .min(2, "UserName is too Short!")
+      .max(50, "UserName is too Long!")
+      .required("UserName is Required"),
+    email: Yup.string().email("Invalid email").required("Email is Required"),
+    password: Yup.string()
+      .required("Password is Required")
+      .min(5, "Password is too short - should be 5 chars minimum."),
+  });
 
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setState({ ...state, [name]: value });
+  const onSubmit = (values) => {
+    handleSubmit(values);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validationSchema,
+  });
+
+  const { dispatch } = useContext(Context);
+  const [state, setState] = useState(initialValues);
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (dataValues) => {
     setError(false);
-    // dispatch({ type: 'SIGNIN_SUCCESS', payload: data.data });
-    // const baseURL = 'http://localhost:3000';
+    dispatch({ type: "REQUEST_LOGIN" });
     fetch(process.env.REACT_APP_BACKEND_URL + "/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(state),
+      body: JSON.stringify(dataValues),
     })
       .then((res) => {
-        console.log(res.json());
         setState({
           firstname: "",
           lastname: "",
@@ -44,10 +67,12 @@ const Signup = () => {
           profilePicture: "",
           password: "",
         });
+        return res.json();
       })
       .then((data) => {
-        // localStorage.setItem("user", JSON.stringify(data.data));
-        window.location.href = "/";
+        localStorage.setItem("user", data.data);
+        dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
+        window.location.href = "/articles";
       })
       .catch((err) => {
         setError(err);
@@ -59,53 +84,104 @@ const Signup = () => {
       <p className="logo">The Info</p>
       <h2 className="sign-in-title">Sign up</h2>
       <p className="proceed">Please enter your credentials to proceed</p>
-      <form className="forms" onSubmit={handleSubmit}>
-        <p className="address mail">*FIRSTNAME</p>
-        <input
-          type="text"
-          className="inputs"
-          name="firstname"
-          value={state.firstname}
-          onChange={handleChange}
-        />
-        <p class="address mail">*LASTNAME</p>
-        <input
-          type="text"
-          className="inputs"
-          name="lastname"
-          value={state.lastname}
-          onChange={handleChange}
-        />
-        <p class="address mail">*USERNAME</p>
-        <input
-          type="text"
-          className="inputs"
-          name="username"
-          value={state.username}
-          onChange={handleChange}
-        />
-        <p class="address mail">*EMAIL ADDRESS</p>
-        <input
-          type="email"
-          className="inputs"
-          name="email"
-          autocomplete="email"
-          value={state.email}
-          onChange={handleChange}
-        />
+      <form className="forms" onSubmit={formik.handleSubmit}>
+        <div>
+          <p className="address mail">*FIRSTNAME</p>
+          <input
+            type="text"
+            className="inputs"
+            name="firstname"
+            value={state.firstname}
+            {...formik.getFieldProps("firstname")}
+          />
+          {formik.touched.firstname && formik.errors.firstname && (
+            <p className="text-danger error1 font-weight-bold">
+              {formik.errors.firstname}
+            </p>
+          )}
+        </div>
+        <div>
+          <p class="address mail">*LASTNAME</p>
+          <input
+            type="text"
+            className="inputs"
+            name="lastname"
+            value={state.lastname}
+            {...formik.getFieldProps("lastname")}
+          />
+          {formik.touched.lastname && formik.errors.lastname && (
+            <p className="text-danger error1 font-weight-bold">
+              {formik.errors.lastname}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <p class="address mail">*USERNAME</p>
+          <input
+            type="text"
+            className="inputs"
+            name="username"
+            value={state.username}
+            {...formik.getFieldProps("username")}
+          />
+          {formik.touched.username && formik.errors.username && (
+            <p className="text-danger error1 font-weight-bold">
+              {formik.errors.username}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <p class="address mail">*EMAIL ADDRESS</p>
+          <input
+            type="email"
+            className="inputs"
+            name="email"
+            autocomplete="email"
+            value={state.email}
+            {...formik.getFieldProps("email")}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <p className="text-danger error1 font-weight-bold">
+              {formik.errors.email}
+            </p>
+          )}
+        </div>
         {/* <p class="address mail">Upload your Profile Picture</p>
         <input type="file" name="file" /> */}
-        <div className="password-title">
-          <p className="password">*PASSWORD</p>
+        <div>
+          <div className="password-title">
+            <p className="password">*PASSWORD</p>
+          </div>
+          <input
+            type="password"
+            className="inputs"
+            name="password"
+            {...formik.getFieldProps("password")}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <p className="text-danger error1 font-weight-bold">
+              {formik.errors.password}
+            </p>
+          )}
         </div>
-        <input
-          type="password"
-          className="inputs"
-          name="password"
-          onChange={handleChange}
-        />
 
         <button type="submit">Sign Up</button>
+
+        {state.loading && (
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <ClipLoader color={"#76323f"} size={150} />
+          </div>
+        )}
+
         {error && <span style={{ color: "red" }}>Something went wrong</span>}
       </form>
     </Form>
@@ -134,10 +210,10 @@ export const Form = styled.div`
     width: 81px;
     height: 81px;
     margin: 10px auto;
-	border: 1px solid #726963;
-	background: #726963;
+    border: 1px solid #726963;
+    background: #726963;
     font-size: 15px;
-	color: #FFF !important;
+    color: #fff !important;
     border-radius: 50px;
     line-height: 81px;
   }
@@ -151,11 +227,11 @@ export const Form = styled.div`
     font-size: 34px;
     text-align: left;
     margin-bottom: 5px;
-	color: #76323f;
+    color: #76323f;
   }
   .proceed {
     font-size: 15px;
-	color: #fff !important;
+    color: #fff !important;
   }
 
   form {
@@ -178,7 +254,7 @@ export const Form = styled.div`
     font-size: 12px;
     letter-spacing: 1.125px;
     text-transform: uppercase;
-	color: #fff !important;
+    color: #fff !important;
   }
 
   .password-title {
@@ -208,8 +284,8 @@ export const Form = styled.div`
   button {
     margin-top: 20px;
     font-size: 15px;
-	color: #565656;
-	background: #d7cec7;
+    color: #565656;
+    background: #d7cec7;
   }
 
   .have-account {
@@ -221,7 +297,9 @@ export const Form = styled.div`
   .have-account span {
     color: #4c60eb;
   }
-
+  .error1 {
+    margin-bottom: 1rem !important;
+  }
   @media only screen and (max-width: 768px) {
     width: 90%;
   }
