@@ -9,14 +9,17 @@ import {
 } from "react-router-dom";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
+// import Upload from "../Upload";
 function Public() {
-
   return (
     <Router>
       <TotalWrapper>
         <Switch>
+          {/* <Route exact path="/api">
+            <Upload />
+          </Route> */}
           <Route exact path="/">
-           <SignIn />
+            <SignIn />
           </Route>
           <Route path="/register">
             <SignUp />
