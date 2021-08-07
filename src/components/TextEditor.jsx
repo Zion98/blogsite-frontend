@@ -25,7 +25,7 @@ const TextEditor = () => {
   };
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
-console.log(token)
+  console.log(token);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
