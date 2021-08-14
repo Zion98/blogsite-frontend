@@ -35,55 +35,44 @@ const SingleArticle = () => {
     <>
       <OneWrapper>
         <div className="article-img">
-          <img src={PF + "/images/" + article.photo} alt="article/img" />
-        </div>
+          {/* <p className="article-cat">{article.category}</p> */}
 
-        <div className="all-details">
-          <div className="article-details">
-            <div className="author-img">
-              <img src="/assets/main.jpg" alt="article/img" />
+          <h2 className="single-title">{article.title}</h2>
+          <div className="all-details">
+            <div className="article-details">
+              <div className="author-img">
+                <img src="/assets/main.jpg" alt="article/img" />
+              </div>
+              <div className="mini-details">
+                <Link
+                  to={`/nav/home/?user=${article.username}`}
+                  className="author-name"
+                >
+                  {article.username}
+                </Link>
+                <p className="number">
+                  <date>{new Date(article.createdAt).toDateString()} </date>
+                </p>
+              </div>
             </div>
-            <div className="mini-details">
-              <Link
-                to={`/nav/home/?user=${article.username}`}
-                className="author-name"
-              >
-                {article.username}
-              </Link>
-              <p className="number">
-                <date>{new Date(article.createdAt).toDateString()} </date>
-                <span> 4 mins read</span>
-              </p>
-            </div>
-          </div>
-          <div className="links">
-            {/* <a href={article?.facebook[0]} target="_blank" rel="noreferrer">
+            <div className="links">
+              {/* <a href={article?.facebook[0]} target="_blank" rel="noreferrer">
             <i class="fab fa-facebook"></i>
             </a>
             <a href={'www.google.com'} target="_blank" rel="noreferrer">
             <i class="fab fa-twitter"></i>
             </a> */}
+            </div>
+          </div>
+          <div>
+            <img src={PF + "/images/" + article.photo} alt="article/img" />
           </div>
         </div>
-        <div className="total-content">
-          <h2 className="single-title">{article.title}</h2>
 
+        <div className="total-content">
           <div class="article-content">{parse(`${article.desc}`)}</div>
         </div>
-        {/* <div className="footer-details">
-          <div className="author-img">
-            <img src="/assets/main.jpg" alt="article/img" />
-          </div>
 
-          <div className="mini-details">
-            <p className="footer-name">
-              <span>Setryl Svanlip</span>Lorem, ipsum dolor sit amet consectetur
-              adipisicing elit. Id illo recusandae odio ut? Aperiam dolorem
-              dicta perspiciatis omnis sint amet hic quidem, voluptatum
-              necessitatibus eos?
-            </p>
-          </div>
-        </div> */}
         {/* <div>
           <span>Edit</span>
           <span>Delete</span>
@@ -100,6 +89,12 @@ const OneWrapper = styled.div`
   grid-area: content;
   padding: 2rem;
 
+  .article-cat {
+    font-size: 1rem;
+    color: #000;
+    opacity: 0.7;
+  }
+
   .article-img {
     width: 100%;
     margin: 0 auto;
@@ -113,10 +108,12 @@ const OneWrapper = styled.div`
 
   .single-title {
     margin: 1rem 0;
-    text-align: center;
-    color: #76323f;
-    text-transform: uppercase;
+    color: #000;
+    opacity: 0.9;
+    /* text-transform: uppercase; */
     font-weight: 900;
+    font-size: 2.5rem;
+    width: 80%;
   }
 
   .all-details {
@@ -140,7 +137,7 @@ const OneWrapper = styled.div`
     padding: 1rem;
     background-color: #76323f;
     justify-content: flex-end !important;
-    align-items:flex-start;
+    align-items: flex-start;
   }
   .author-img {
     width: 50px;
@@ -158,11 +155,11 @@ const OneWrapper = styled.div`
   }
 
   .author-name {
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 700;
     margin: 0;
     text-decoration: none;
-    color: #76323f;
+    color: #000;
   }
   .number {
     font-size: 0.8rem;
@@ -200,7 +197,6 @@ const OneWrapper = styled.div`
     min-width: 600px;
   }
 
-  
   .footer-name {
     width: 60%;
     font-size: 0.7rem;

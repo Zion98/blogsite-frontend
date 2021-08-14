@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import parse from "html-react-parser";
 
 const Card = ({ article }) => {
   const PF = process.env.REACT_APP_BACKEND_URL;
@@ -14,7 +13,7 @@ const Card = ({ article }) => {
         {article.categories.map((single, index) => {
           return (
             <p key={index} className="category">
-              Category: {single.toUpperCase()}
+              {single.toUpperCase()}
             </p>
           );
         })}
@@ -22,8 +21,7 @@ const Card = ({ article }) => {
 
       <Link to={`/article1/${article._id}`} className="content">
         <h2 className="art-desc">{article.title}</h2>
-        <p className="time">{new Date(article.createdAt).toDateString()}</p>
-        <p className="content-summary">{parse(article.desc)}</p>
+        {/* <p className="time">{new Date(article.createdAt).toDateString()}</p> */}
       </Link>
     </CardWrapper>
   );
@@ -31,8 +29,8 @@ const Card = ({ article }) => {
 
 const CardWrapper = styled.div`
   margin: 0 auto;
-  box-shadow: 1px 1px 1px 0px;
-  background-color: #c09f80;
+  /* box-shadow: 1px 1px 1px 34px; */
+
   .card-img {
     height: 350px;
   }
@@ -42,19 +40,21 @@ const CardWrapper = styled.div`
   }
 
   .cat {
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
   }
 
   .category {
-    font-style: italic;
-    font-weight: 400;
-    color: #565656;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    color: #000000;
+    opacity: 0.5;
   }
 
   .cat p {
-    padding: 0.5rem;
-    margin: 0;
+    padding: 0.5rem 0;
+    margin: 0.5rem 0;
   }
 
   .time {
@@ -65,12 +65,12 @@ const CardWrapper = styled.div`
   }
 
   a {
-    color: #fff;
+    color: #000;
     text-decoration: none;
   }
 
   .art-desc {
-    text-align: center;
+    /* text-align: center; */
     font-weight: 600;
     font-size: 1.5rem;
   }

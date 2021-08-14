@@ -8,7 +8,7 @@
 
 body {
   margin: 0;
-  background:#565656 !important;
+  /* background:#565656 !important; */
   font-family: 'Mulish', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

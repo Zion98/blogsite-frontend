@@ -21,6 +21,7 @@ const Sidebar = () => {
         console.log(error);
       });
   }, [token]);
+  console.log(categories)
 
   return (
     <SideBarWrapper>
@@ -41,7 +42,7 @@ const Sidebar = () => {
         <div className="category">
           <h2 className="cat-title">Categories</h2>
           <ul className="side-lists">
-            {categories ? (
+            {categories.length>0 ? (
               categories?.map((single, index) => {
                 return (
                   <Link to={`/nav/home/?cat=${single.name}`}>
@@ -78,7 +79,7 @@ const SideBarWrapper = styled.div`
     padding: 3rem 2rem;
     border: none;
     border-radius: 30px;
-    background-color: #c09f80;
+    background: linear-gradient(96.67deg, #34A853 0%, #B8D344 100%);
     color: #fff;
   }
 

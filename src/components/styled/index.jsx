@@ -9,7 +9,7 @@ export const TotalWrapper = styled.div`
     "footer footer footer";
   grid-template-columns: 2fr 2fr 1fr;
   grid-gap: 0px 10px;
-  background-color: #d7cec7;
+  background-color: #fff;
 
   @media screen and (max-width: 768px) {
     grid-template-areas:
@@ -33,7 +33,7 @@ const CenterPosition = css`
 
 export const Form = styled.div`
   ${CenterPosition}
-  background: #C09F80;
+  background: #34a853;
   z-index: 999;
   p {
     margin: 0;
@@ -43,9 +43,9 @@ export const Form = styled.div`
     width: 81px;
     height: 81px;
     margin: 10px auto;
-    border: 1px solid #726963;
-    background: #726963;
     font-size: 15px;
+    font-weight:800;
+    background: linear-gradient(96.67deg, #34a853 0%, #b8d344 100%);
     color: #fff !important;
     border-radius: 50px;
     line-height: 81px;
@@ -60,7 +60,7 @@ export const Form = styled.div`
     font-size: 34px;
     text-align: left;
     margin-bottom: 5px;
-    color: #76323f !important;
+    color: #fff !important;
   }
   .proceed {
     font-size: 15px;
@@ -115,8 +115,9 @@ export const Form = styled.div`
   button {
     margin-top: 20px;
     font-size: 15px;
-    color: #565656;
-    background: #d7cec7;
+    color: #fff;
+    font-weight:800;
+    background: #b8d344;
   }
 
   .have-account {

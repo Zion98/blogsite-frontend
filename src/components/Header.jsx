@@ -59,11 +59,11 @@ const Header = (props) => {
                   FAQ{" "}
                 </NavLink>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a className="nav-link" href="/">
                   Terms & Conditions
                 </a>
-              </li>
+              </li> */}
 
               <li
                 onClick={handleSignOut}
@@ -75,6 +75,12 @@ const Header = (props) => {
             </ul>
           </div>
         </nav>
+
+        <div className="text-header">
+          <p>
+            We offer our <span>insights</span> on engineering and business.
+          </p>
+        </div>
       </HeaderWrapper>
     </>
   );
@@ -85,9 +91,8 @@ const HeaderWrapper = styled.div`
   padding: 0.5rem 2rem;
   color: #565656;
   font-weight: 600;
-  background-color: #fff;
-  /* background-color:${(props) => (props.pageType === "/" ? "red" : "")}; */
-  position: fixed;
+  background-color: #000000;
+  /* position: fixed; */
   width: 100%;
   z-index: 999;
 
@@ -96,8 +101,7 @@ const HeaderWrapper = styled.div`
   }
 
   .navbar-links {
-    color: #565656 !important;
-    /* margin-left: 40rem; */
+    color: #fff !important;
   }
 
   #lists li a {
@@ -105,15 +109,15 @@ const HeaderWrapper = styled.div`
   }
 
   #trans {
-    color: #565656 !important;
+    color: #fff !important;
     text-decoration: none;
   }
   .logo {
     text-align: center;
+    font-size: 1rem;
     width: 81px;
     height: 81px;
-    background: #726963;
-    font-size: 15px;
+    background: linear-gradient(96.67deg, #34a853 0%, #b8d344 100%);
     color: #fff !important;
     border-radius: 50px;
     line-height: 71px;
@@ -129,11 +133,24 @@ const HeaderWrapper = styled.div`
     font-weight: 500;
     font-size: 1.1rem;
     margin-right: 1rem !important;
-    color: #565656 !important;
+    color: #fff !important;
   }
 
   .signout {
+    color: #fff !important;
     cursor: pointer;
+  }
+
+  .text-header p {
+    text-align: center;
+    color: #fff;
+    width: 70%;
+    margin: 1.5rem auto;
+    font-size: 3rem;
+  }
+
+  .text-header span {
+    color: #34a853;
   }
 
   @media screen and(max-width:991px) {

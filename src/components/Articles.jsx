@@ -9,7 +9,7 @@ const Articles = () => {
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
   const { state } = useContext(Context);
-  console.log("stateloading articles", state.loading)
+  console.log("stateloading articles", state.loading);
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL + "/get", {
       method: "GET",
@@ -41,9 +41,7 @@ const Articles = () => {
           ))}
         </div>
       </ArticlesWrapper>
-
       <SideBar />
-
       <Footer />
     </>
   );
@@ -57,7 +55,7 @@ const ArticlesWrapper = styled.div`
 
   .titler {
     text-align: center;
-    color: #76323F;
+    color: #000;
     font-weight: 800;
     border-bottom: 1px solid #c0c0c0;
     padding: 1rem 0;
@@ -75,7 +73,6 @@ const ArticlesWrapper = styled.div`
   @media only screen and (max-width: 765px) {
     width: 85%;
     margin: 2rem auto;
-
 
     .titler {
       margin-bottom: 3rem;
