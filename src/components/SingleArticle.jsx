@@ -4,18 +4,20 @@ import parse from "html-react-parser";
 import { Link, useLocation } from "react-router-dom";
 import SideBar from "../components/Sidebar";
 import Footer from "../components/Footer";
+import Loader from "./Loader";
 const SingleArticle = () => {
   const location = useLocation();
-  const path = location.pathname.split("/")[2];
-
+  const path = location.pathname.split("/")[3];
+  const [loading, setloading] = useState(false);
   const [article, setArticle] = useState([]);
 
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
   const PF = process.env.REACT_APP_BACKEND_URL;
   const baseURL = PF + "/get/" + path;
-
+  // console.log(baseURL);
   useEffect(() => {
+    setloading(true);
     fetch(baseURL, {
       method: "GET",
       headers: {
@@ -25,62 +27,71 @@ const SingleArticle = () => {
       .then((res) => res.json())
       .then((data) => {
         setArticle(data);
+        setloading(false);
       })
       .catch(function (error) {
         console.log(error);
+        setloading(false);
       });
   }, [token, baseURL]);
 
+  // console.log(article);
+
   return (
     <>
-      <OneWrapper>
-        <div className="article-img">
-          {/* <p className="article-cat">{article.category}</p> */}
-
-          <h2 className="single-title">{article.title}</h2>
-          <div className="all-details">
-            <div className="article-details">
-              <div className="author-img">
-                <img src="/assets/main.jpg" alt="article/img" />
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <OneWrapper>
+            <div className="article-img">
+              <h2 className="single-title">{article.title}</h2>
+              <p className="article-cat">{article.categories[0]}</p>
+              <div className="all-details">
+                <div className="article-details">
+                  <div className="author-img">
+                    <img src="/assets/main.jpg" alt="article/img" />
+                  </div>
+                  <div className="mini-details">
+                    <Link
+                      to={`/nav/home/?user=${article.username}`}
+                      className="author-name"
+                    >
+                      {article.username}
+                    </Link>
+                    <p className="number">
+                      <date>{new Date(article.createdAt).toDateString()} </date>
+                    </p>
+                  </div>
+                </div>
+                <div className="links">
+                  <a href={article?.facebook} target="_blank" rel="noreferrer">
+                    <i class="fab fa-facebook"></i>
+                  </a>
+                  <a href={article?.twitter} target="_blank" rel="noreferrer">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </div>
               </div>
-              <div className="mini-details">
-                <Link
-                  to={`/nav/home/?user=${article.username}`}
-                  className="author-name"
-                >
-                  {article.username}
-                </Link>
-                <p className="number">
-                  <date>{new Date(article.createdAt).toDateString()} </date>
-                </p>
+              <div>
+                <img src={PF + "/images/" + article.photo} alt="article/img" />
               </div>
             </div>
-            <div className="links">
-              {/* <a href={article?.facebook[0]} target="_blank" rel="noreferrer">
-            <i class="fab fa-facebook"></i>
-            </a>
-            <a href={'www.google.com'} target="_blank" rel="noreferrer">
-            <i class="fab fa-twitter"></i>
-            </a> */}
+
+            <div className="total-content">
+              <div class="article-content">{parse(`${article.desc}`)}</div>
             </div>
-          </div>
-          <div>
-            <img src={PF + "/images/" + article.photo} alt="article/img" />
-          </div>
-        </div>
 
-        <div className="total-content">
-          <div class="article-content">{parse(`${article.desc}`)}</div>
-        </div>
-
-        {/* <div>
+            {/* <div>
           <span>Edit</span>
           <span>Delete</span>
         </div> */}
-      </OneWrapper>
-      <SideBar />
+          </OneWrapper>
+          <SideBar />
 
-      <Footer />
+          <Footer />
+        </>
+      )}
     </>
   );
 };
@@ -88,6 +99,7 @@ const SingleArticle = () => {
 const OneWrapper = styled.div`
   grid-area: content;
   padding: 2rem;
+  margin-top: 5rem;
 
   .article-cat {
     font-size: 1rem;
@@ -96,21 +108,19 @@ const OneWrapper = styled.div`
   }
 
   .article-img {
-    width: 100%;
     margin: 0 auto;
-    margin-top: 8rem;
   }
 
   .article-img img {
-    width: 100%;
-    height: 100%;
+    width: 350px;
+    height: 350px;
+    object-fit: contain;
   }
 
   .single-title {
-    margin: 1rem 0;
+    margin: 0;
     color: #000;
     opacity: 0.9;
-    /* text-transform: uppercase; */
     font-weight: 900;
     font-size: 2.5rem;
     width: 80%;
@@ -204,6 +214,15 @@ const OneWrapper = styled.div`
   }
 
   @media only screen and (max-width: 768px) {
+    margin-top: 1rem;
+    .single-title {
+      font-size: 1.5rem;
+    }
+
+    .article-content {
+      background-color: #fff;
+      padding: 0rem;
+    }
   }
 `;
 

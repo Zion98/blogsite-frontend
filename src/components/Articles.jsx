@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Card from "./Card";
 import SideBar from "../components/Sidebar";
 import Footer from "../components/Footer";
-import { Context } from "../context/Context";
+import Loader from "./Loader";
+
 const Articles = () => {
   const [allArticles, setAllArticles] = useState([]);
+  const [loading, setloading] = useState(false);
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
-  const { state } = useContext(Context);
-  console.log("stateloading articles", state.loading);
+
   useEffect(() => {
+    setloading(true);
     fetch(process.env.REACT_APP_BACKEND_URL + "/get", {
       method: "GET",
       headers: {
@@ -19,30 +21,37 @@ const Articles = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setAllArticles(data);
+        setloading(false);
       })
       .catch((error) => {
-        console.log(error);
+        setloading(true);
         return error;
       });
   }, [token]);
 
-  console.log(state.user);
-
   return (
     <>
-      <ArticlesWrapper>
-        <h2 className="titler">All Articles</h2>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <ArticlesWrapper>
+           
+            <h2 className="titler">All Articles</h2>
 
-        <div className="box-content">
-          {allArticles.map((single) => (
-            <Card article={single} />
-          ))}
-        </div>
-      </ArticlesWrapper>
-      <SideBar />
-      <Footer />
+            <div className="box-content">
+              {allArticles.length ? (
+                allArticles.map((single) => <Card article={single} />)
+              ) : (
+                <p>No articles created at the moment</p>
+              )}
+            </div>
+          </ArticlesWrapper>
+          <SideBar />
+          <Footer />
+        </>
+      )}
     </>
   );
 };
@@ -59,7 +68,7 @@ const ArticlesWrapper = styled.div`
     font-weight: 800;
     border-bottom: 1px solid #c0c0c0;
     padding: 1rem 0;
-    margin: 6rem 0;
+    margin: 3rem 0;
   }
 
   .box-content {
@@ -75,7 +84,7 @@ const ArticlesWrapper = styled.div`
     margin: 2rem auto;
 
     .titler {
-      margin-bottom: 3rem;
+      margin: 1rem 0;
     }
     .box-content {
       grid-template-columns: 1fr;

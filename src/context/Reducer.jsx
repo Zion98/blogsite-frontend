@@ -1,6 +1,5 @@
 // import React, { useReducer } from "react";
 
-
 export const Reducer = (initialState, action) => {
   switch (action.type) {
     case "REQUEST_LOGIN":
@@ -12,14 +11,12 @@ export const Reducer = (initialState, action) => {
       return {
         ...initialState,
         user: action.payload?.user,
-        // token: action.payload.auth_token,
         loading: false,
       };
     case "LOGOUT":
       return {
         ...initialState,
         user: "",
-        // token: ""
       };
 
     case "LOGIN_ERROR":

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 import { Context } from "../context/Context";
 
-const Header = (props) => {
+const Header = () => {
   const { dispatch } = useContext(Context);
 
   const handleSignOut = () => {
@@ -19,7 +19,7 @@ const Header = (props) => {
             The Info
           </Link>
           <button
-            className="navbar-toggler"
+            className="navbar-toggler custom-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -34,7 +34,7 @@ const Header = (props) => {
             <ul className="navbar-nav list-items ml-auto">
               <li className="nav-item">
                 <NavLink
-                  to="/articles"
+                  to="/app/articles"
                   className="nav-link header-options"
                   activeclassname="active"
                 >
@@ -43,7 +43,7 @@ const Header = (props) => {
               </li>
               <li className="nav-item">
                 <NavLink
-                  to="/create"
+                  to="/app/create"
                   className="nav-link header-options"
                   activeclassname="active"
                 >
@@ -59,11 +59,6 @@ const Header = (props) => {
                   FAQ{" "}
                 </NavLink>
               </li>
-              {/* <li className="nav-item">
-                <a className="nav-link" href="/">
-                  Terms & Conditions
-                </a>
-              </li> */}
 
               <li
                 onClick={handleSignOut}
@@ -92,9 +87,17 @@ const HeaderWrapper = styled.div`
   color: #565656;
   font-weight: 600;
   background-color: #000000;
-  /* position: fixed; */
   width: 100%;
   z-index: 999;
+
+  .custom-toggler.navbar-toggler {
+    border-color: lightgreen;
+    background-color: white;
+  }
+  .custom-toggler .navbar-toggler-icon {
+    background-color: white;
+    /* background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 128, 0, 0.8)' stroke-width='1' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 23h22'/%3E%3C/svg%3E"); */
+  }
 
   nav {
     background-color: transparent !important;
@@ -130,10 +133,17 @@ const HeaderWrapper = styled.div`
 
   .logo-name,
   .navbar ul li a {
-    font-weight: 500;
-    font-size: 1.1rem;
+    font-weight: 800;
+    font-size: 1rem;
     margin-right: 1rem !important;
     color: #fff !important;
+    transition: all 1s ease-in;
+    border-radius: 2px;
+
+    &:hover {
+      background: linear-gradient(96.67deg, #34a853 0%, #b8d344 100%);
+      color: #fff;
+    }
   }
 
   .signout {
@@ -153,7 +163,10 @@ const HeaderWrapper = styled.div`
     color: #34a853;
   }
 
-  @media screen and(max-width:991px) {
+  @media screen and (max-width: 768px) {
+    .text-header p {
+      font-size: 1.2rem;
+    }
   }
 `;
 

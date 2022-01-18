@@ -21,7 +21,7 @@ const Sidebar = () => {
         console.log(error);
       });
   }, [token]);
-  console.log(categories)
+
 
   return (
     <SideBarWrapper>

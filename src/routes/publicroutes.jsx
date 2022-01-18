@@ -1,31 +1,32 @@
-import "../App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { TotalWrapper } from "../components/styled/index";
+import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
-  Redirect,
+  // Redirect,
   Route,
   Switch,
 } from "react-router-dom";
-import SignIn from "../components/SignIn";
-import SignUp from "../components/SignUp";
-// import Upload from "../Upload";
+import { TotalWrapper } from "../components/styled/index";
+import "../App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const SignIn = lazy(() => import("../components/SignIn"));
+const SignUp = lazy(() => import("../components/SignUp"));
+
 function Public() {
   return (
     <Router>
       <TotalWrapper>
-        <Switch>
-          {/* <Route exact path="/api">
-            <Upload />
-          </Route> */}
-          <Route exact path="/">
-            <SignIn />
-          </Route>
-          <Route path="/register">
-            <SignUp />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
+        <Suspense fallback={""}>
+          <Switch>
+            <Route exact path="/">
+              <SignIn />
+            </Route>
+            <Route path="/register">
+              <SignUp />
+            </Route>
+            {/* <Redirect from="*" to="/" /> */}
+          </Switch>
+        </Suspense>
       </TotalWrapper>
     </Router>
   );

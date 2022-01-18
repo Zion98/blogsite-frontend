@@ -14,7 +14,6 @@ const Signup = () => {
     profilePicture: "",
     password: "",
   };
-
   const validationSchema = Yup.object({
     firstname: Yup.string()
       .min(2, "FirstName is too short!")
@@ -31,7 +30,7 @@ const Signup = () => {
     email: Yup.string().email("Invalid email").required("Email is Required"),
     password: Yup.string()
       .required("Password is Required")
-      .min(5, "Password is too short - should be 5 chars minimum."),
+      .min(6, "Password is too short - should be 6 chars minimum."),
   });
 
   const onSubmit = (values) => {
@@ -44,8 +43,8 @@ const Signup = () => {
     validationSchema,
   });
 
-  const { dispatch } = useContext(Context);
-  const [state, setState] = useState(initialValues);
+  const { dispatch, state } = useContext(Context);
+  const [, setStates] = useState(initialValues);
   const [error, setError] = useState(false);
 
   const handleSubmit = (dataValues) => {
@@ -59,7 +58,7 @@ const Signup = () => {
       body: JSON.stringify(dataValues),
     })
       .then((res) => {
-        setState({
+        setStates({
           firstname: "",
           lastname: "",
           username: "",
@@ -67,17 +66,20 @@ const Signup = () => {
           profilePicture: "",
           password: "",
         });
-        return res.json();
+        if (res.status === 201) {
+          return res.json();
+        }
+        throw res;
       })
       .then((data) => {
-        console.log(data);
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
         localStorage.setItem("user", JSON.stringify(data.data));
-        window.location.href = "/articles";
+        window.location.href = "/app/articles";
       })
-      .catch((err) => {
-        setError(err);
-        console.log(err);
+      .catch((res) => {
+        dispatch({ type: "LOGIN_ERROR" });
+
+        res.json().then((data) => setError(data.message));
       });
   };
   return (
@@ -85,6 +87,9 @@ const Signup = () => {
       <p className="logo">The Info</p>
       <h2 className="sign-in-title">Sign up</h2>
       <p className="proceed">Please enter your credentials to proceed</p>
+      {error && (
+        <span style={{ color: "red", fontSize: ".8rem" }}>{error}</span>
+      )}
       <form className="forms" onSubmit={formik.handleSubmit}>
         <div>
           <p className="address mail">*FIRSTNAME</p>
@@ -182,8 +187,6 @@ const Signup = () => {
             <ClipLoader color={"#76323f"} size={150} />
           </div>
         )}
-
-        {error && <span style={{ color: "red" }}>Something went wrong</span>}
       </form>
     </Form>
   );
@@ -212,7 +215,7 @@ export const Form = styled.div`
     height: 81px;
     margin: 10px auto;
     font-size: 15px;
-    font-weight:800;
+    font-weight: 800;
     background: linear-gradient(96.67deg, #34a853 0%, #b8d344 100%);
     color: #fff !important;
     border-radius: 50px;
@@ -286,7 +289,7 @@ export const Form = styled.div`
     margin-top: 20px;
     font-size: 15px;
     color: #fff;
-    font-weight:800;
+    font-weight: 800;
     background: #b8d344;
   }
 

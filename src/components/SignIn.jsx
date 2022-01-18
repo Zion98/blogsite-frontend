@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { Context } from "../context/Context";
 import { Form } from "./styled/index";
 import * as Yup from "yup";
-import ClipLoader from "react-spinners/ClipLoader";
+import Loader from "./Loader";
 
 const Signin = () => {
   const { dispatch, state } = useContext(Context);
@@ -33,14 +33,11 @@ const Signin = () => {
         if (res.status === 200) {
           return res.json();
         }
-        console.log(res.json());
       })
       .then((data) => {
-        console.log("data", data);
-        console.log("datacvb", data.data);
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
         localStorage.setItem("user", JSON.stringify(data.data));
-        window.location.href = "/articles";
+        window.location.href = "/app/articles";
       })
       .catch((error) => {
         dispatch({ type: "LOGIN_ERROR" });
@@ -62,8 +59,6 @@ const Signin = () => {
     onSubmit,
     validationSchema,
   });
-
-  console.log(state.user);
   return (
     <>
       <Form>
@@ -116,18 +111,7 @@ const Signin = () => {
               )}
             </div>
             <button type="submit">Sign in</button>
-            {state.loading && (
-              <div
-                style={{
-                  position: "fixed",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                <ClipLoader color={"#76323f"} size={150} />
-              </div>
-            )}
+            {state.loading && <Loader />}
             <p className="have-account">
               Don't have an account?{" "}
               <Link to="/register">

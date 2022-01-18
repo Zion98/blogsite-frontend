@@ -7,26 +7,56 @@ import { Context } from "../context/Context";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import Footer from "./Footer";
+import Loader from "./Loader";
 
 const TextEditor = () => {
   const { state } = useContext(Context);
   const name = state.user?.username;
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [file, setFile] = useState(null);
-  const [username, setUsername] = useState(name);
-  const [categories, setCategories] = useState("");
-  const [facebook, setFacebook] = useState("");
-  const [twitter, setTwitter] = useState("");
 
+  const [formValue, setFormValue] = useState({
+    title: "",
+    desc: "",
+    // files: null,
+    username: name,
+    categories: "",
+    facebook: "",
+    twitter: "",
+  });
+  const [file, setFile] = useState(null);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    // console.log(event.target.files[0],'eefe'
+
+    // if (name === "file") {
+    //   setFormValue((prevState) => {
+    //     return {
+    //       ...prevState,
+    //       files
+    //       // [name]: event.target.files[0],
+    //     };
+    //   });
+    // }
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+
+  const [loading, setloading] = useState(false);
+  const { title, desc, username, categories, facebook, twitter } = formValue;
   const handleEditor = (event, editor) => {
     const data = editor.getData();
-    setDesc(data);
+    setFormValue({ ...formValue, desc: data });
+    // setDesc(data);
   };
   let x = localStorage.getItem("user");
   let token = JSON.parse(x).token;
-  console.log(token);
+
   const handleSubmit = async (e) => {
+    setloading(true);
     e.preventDefault();
 
     const baseURL = process.env.REACT_APP_BACKEND_URL;
@@ -65,8 +95,10 @@ const TextEditor = () => {
           icon: "success",
           title: "Article Created",
         });
-        window.location.replace("/articles");
+        setloading(false);
+        window.location.replace("/app/articles");
       } catch (error) {
+        setloading(false);
         return error;
       }
     }
@@ -74,6 +106,7 @@ const TextEditor = () => {
 
   return (
     <>
+      {loading && <Loader />}
       <EditorWrapper>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -85,7 +118,7 @@ const TextEditor = () => {
               className="form-control"
               name="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleChange}
               id="exampleInputText1"
               aria-describedby="emailHelp"
             />
@@ -99,7 +132,7 @@ const TextEditor = () => {
               className="form-control"
               name="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleChange}
               id="exampleInputText"
               aria-describedby="textHelp"
             />
@@ -114,7 +147,7 @@ const TextEditor = () => {
               className="form-control"
               name="categories"
               value={categories}
-              onChange={(e) => setCategories(e.target.value)}
+              onChange={handleChange}
               id="exampleInputText"
               aria-describedby="textHelp"
             />
@@ -128,7 +161,7 @@ const TextEditor = () => {
               className="form-control"
               name="facebook"
               value={facebook}
-              onChange={(e) => setFacebook(e.target.value)}
+              onChange={handleChange}
               id="exampleInputText1"
               aria-describedby="textHelp"
             />
@@ -142,7 +175,7 @@ const TextEditor = () => {
               className="form-control"
               name="twitter"
               value={twitter}
-              onChange={(e) => setTwitter(e.target.value)}
+              onChange={handleChange}
               id="exampleInputText1"
               aria-describedby="textHelp"
             />
@@ -158,9 +191,18 @@ const TextEditor = () => {
               name="file"
               style={{ display: "none" }}
               id="fileInput"
+              accept="image/*"
               onChange={(e) => setFile(e.target.files[0])}
             />
           </div>
+
+          {file && (
+            <img
+              src={URL.createObjectURL(file)}
+              alt="image1"
+              className="uploaded-pic"
+            />
+          )}
 
           <div className="form-group">
             <label>Message</label>
@@ -170,22 +212,31 @@ const TextEditor = () => {
                 data={desc}
                 config={{
                   allowedContent: true,
-                  ckfinder: {
-                    uploadUrl: "http://localhost:3000/uploads",
-                  },
+                  // ckfinder: {
+                  //   uploadUrl: "http://localhost:3000/uploads",
+                  // },
                 }}
                 onChange={handleEditor}
               />
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary mt-4">
+          <button
+            type="submit"
+            disabled={
+              !file ||
+              !title ||
+              !desc ||
+              !username ||
+              !categories ||
+              !facebook ||
+              !twitter
+            }
+            className="btn btn-primary mt-4"
+          >
             Submit
           </button>
         </form>
-        {/* {file && <img src={URL.createObjectURL(file)} alt="image1" />} */}
-        {/* <div>
-			</div> */}
       </EditorWrapper>
       <Sidebar />
       <Footer />
@@ -198,13 +249,19 @@ const EditorWrapper = styled.div`
   padding: 1rem;
   width: 100%;
   margin: 6rem auto;
-  margin-top: 12rem;
+  margin-top: 6rem;
 
   form {
     background-color: #fff;
     border-radius: 20px;
     border: none;
-    padding: 6rem 4rem 4rem 4rem;
+    padding: 2rem 4rem 2rem 2rem;
+  }
+
+  .uploaded-pic {
+    margin: 1rem 0;
+    width: 250px;
+    object-fit: contain;
   }
 
   .icon {
@@ -212,6 +269,15 @@ const EditorWrapper = styled.div`
     border-radius: 30px;
     border: 3px solid blue;
     padding: 0.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin: 2rem auto;
+
+    form {
+      padding: 2rem 1rem;
+      padding-top: 0;
+    }
   }
 `;
 

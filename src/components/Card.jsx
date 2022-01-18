@@ -1,47 +1,64 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+// import Articles from "./Articles";
 
 const Card = ({ article }) => {
   const PF = process.env.REACT_APP_BACKEND_URL;
   return (
-    <CardWrapper>
-      <div className="card-img">
-        <img src={PF + "/images/" + article.photo} alt="cardImg" />
-      </div>
-      <div className="cat">
-        {article.categories.map((single, index) => {
-          return (
-            <p key={index} className="category">
-              {single.toUpperCase()}
-            </p>
-          );
-        })}
-      </div>
+    <>
+      <Link to={`/app/article1/${article._id}`} className="content">
+        <CardWrapper>
+          <div className="card-img">
+            <img src={PF + "/images/" + article.photo} alt="cardImg" />
+          </div>
+          <div className="all">
+            <div className="cat">
+              {article.categories.map((single, index) => {
+                return (
+                  <p key={index} className="category">
+                    Category: {single.toUpperCase()}
+                  </p>
+                );
+              })}
+            </div>
 
-      <Link to={`/article1/${article._id}`} className="content">
-        <h2 className="art-desc">{article.title}</h2>
-        {/* <p className="time">{new Date(article.createdAt).toDateString()}</p> */}
+            <h2 className="art-desc" style={{ textDecoration: "none" }}>
+              {article.title}
+            </h2>
+            <p className="time">{new Date(article.createdAt).toDateString()}</p>
+          </div>
+        </CardWrapper>
       </Link>
-    </CardWrapper>
+    </>
   );
 };
 
 const CardWrapper = styled.div`
   margin: 0 auto;
-  /* box-shadow: 1px 1px 1px 34px; */
+
+  box-shadow: 1px 0.5px 0.5px 1px #000;
+
+  .all {
+    border-top: 1px solid #34a853;
+    padding: 1rem;
+  }
 
   .card-img {
+    padding: 1rem;
     height: 350px;
+    width: 350px;
+    transform: scale(85%);
+
+    &:hover {
+      transform: scale(100%);
+      transition: all ease-out 1s;
+    }
   }
   .card-img img {
     width: 100%;
     height: 100%;
-  }
-
-  .cat {
-    /* display: flex;
-    justify-content: center; */
+    object-fit: contain;
   }
 
   .category {
@@ -49,7 +66,8 @@ const CardWrapper = styled.div`
     font-size: 13px;
     line-height: 16px;
     color: #000000;
-    opacity: 0.5;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .cat p {
@@ -71,8 +89,15 @@ const CardWrapper = styled.div`
 
   .art-desc {
     /* text-align: center; */
-    font-weight: 600;
+    text-decoration: none !important;
+    font-weight: 800;
     font-size: 1.5rem;
+    color: #34a853;
+  }
+
+  .time {
+    color: #000;
+    font-weight: 600;
   }
 
   .content-summary {

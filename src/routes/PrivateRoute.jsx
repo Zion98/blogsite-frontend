@@ -1,17 +1,35 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  return(
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../context/Context";
+export const PrivateRoute = ({ component: Component, ...rest }) => {
+  const { state } = useContext(Context);
+  return (
     <Route
       {...rest}
-      render={props => {
-        if (JSON.parse(localStorage.getItem('user'))) {
-          return <Component {...props} />
-        }
-        return <Redirect to='/' />
-      }}
+      render={(props) =>
+        state.user ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        )
+      }
     />
-  )
-}
-export default PrivateRoute
+  );
+};
+
+export const PublicRoute = ({ component: Component, restricted, ...rest }) => {
+  const { state } = useContext(Context);
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        state.user && state.user?.token ? (
+          <Redirect to="/app/articles" />
+        ) : (
+          <Component {...props} />
+        )
+      }
+    />
+  );
+};
