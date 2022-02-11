@@ -36,7 +36,7 @@ const Signin = () => {
       })
       .then((data) => {
         dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
-        localStorage.setItem("user", JSON.stringify(data.data));
+        sessionStorage.setItem("user", JSON.stringify(data.data));
         window.location.href = "/app/articles";
       })
       .catch((error) => {

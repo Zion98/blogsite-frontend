@@ -11,7 +11,7 @@ const SingleArticle = () => {
   const [loading, setloading] = useState(false);
   const [article, setArticle] = useState([]);
 
-  let x = localStorage.getItem("user");
+  let x = sessionStorage.getItem("user");
   let token = JSON.parse(x).token;
   const PF = process.env.REACT_APP_BACKEND_URL;
   const baseURL = PF + "/get/" + path;

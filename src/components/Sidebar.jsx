@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 const Sidebar = () => {
   const [categories, setCategories] = useState([]);
-  let x = localStorage.getItem("user");
+  let x = sessionStorage.getItem("user");
   let token = JSON.parse(x).token;
 
   useEffect(() => {

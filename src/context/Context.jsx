@@ -2,8 +2,8 @@ import { createContext, useReducer } from "react";
 import React from "react";
 import { Reducer } from "./Reducer";
 
-let user = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
+let user = sessionStorage.getItem("user")
+  ? JSON.parse(sessionStorage.getItem("user"))
   : null;
 const initialState = {
   user: user || "",

@@ -8,7 +8,7 @@ const Header = () => {
 
   const handleSignOut = () => {
     dispatch({ type: "LOGOUT" });
-    localStorage.setItem("user", "");
+    sessionStorage.setItem("user", "");
     window.location.href = "/";
   };
   return (

@@ -52,7 +52,7 @@ const TextEditor = () => {
     setFormValue({ ...formValue, desc: data });
     // setDesc(data);
   };
-  let x = localStorage.getItem("user");
+  let x = sessionStorage.getItem("user");
   let token = JSON.parse(x).token;
 
   const handleSubmit = async (e) => {

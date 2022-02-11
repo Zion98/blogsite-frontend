@@ -8,7 +8,7 @@ import Loader from "./Loader";
 const Articles = () => {
   const [allArticles, setAllArticles] = useState([]);
   const [loading, setloading] = useState(false);
-  let x = localStorage.getItem("user");
+  let x = sessionStorage.getItem("user");
   let token = JSON.parse(x).token;
 
   useEffect(() => {

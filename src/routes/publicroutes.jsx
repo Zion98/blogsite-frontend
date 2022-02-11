@@ -24,7 +24,6 @@ function Public() {
             <Route path="/register">
               <SignUp />
             </Route>
-            {/* <Redirect from="*" to="/" /> */}
           </Switch>
         </Suspense>
       </TotalWrapper>
